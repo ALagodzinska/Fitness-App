@@ -1,11 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, Pressable } from "react-native";
 
-function MainButton() {
-  const handlePress = () => {
-    alert("Button Pressed!");
-  };
-
+function MainButton({ handlePress }) {
   return (
     <Pressable
       style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}

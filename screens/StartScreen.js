@@ -8,7 +8,11 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import MainButton from "../components/MainButton";
 
-function StartScreen() {
+function StartScreen({ navigation }) {
+  function handlePress() {
+    navigation.navigate("ExerciseTypeScreen");
+  }
+
   return (
     <LinearGradient colors={["#004D40", "#E3F2FD"]} style={styles.rootScreen}>
       <ImageBackground
@@ -18,7 +22,7 @@ function StartScreen() {
         imageStyle={styles.backgroundImage}
       >
         <View style={styles.container}>
-          <MainButton />
+          <MainButton handlePress={handlePress} />
         </View>
       </ImageBackground>
     </LinearGradient>
