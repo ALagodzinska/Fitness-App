@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import SectionButton from "../components/SectionButton";
 
@@ -8,15 +8,22 @@ import SectionButton from "../components/SectionButton";
 function ExerciseTypeScreen({ navigation }) {
   return (
     <LinearGradient colors={["#004D40", "#E3F2FD"]} style={styles.rootScreen}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Exercise Type</Text>
-      </View>
-      <View style={styles.buttonContainer}>
-        <SectionButton title={"warm-up"} />
-        <SectionButton title={"cardio"} />
-        <SectionButton title={"strength"} />
-        <SectionButton title={"flexibility"} />
-      </View>
+      <ImageBackground
+        source={require("../assets/images/equipment.png")}
+        resizeMode="cover"
+        style={styles.rootScreen}
+        imageStyle={styles.backgroundImage}
+      >
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Exercise Type</Text>
+        </View>
+        <View style={styles.buttonContainer}>
+          <SectionButton title={"warm-up"} />
+          <SectionButton title={"cardio"} />
+          <SectionButton title={"strength"} />
+          <SectionButton title={"flexibility"} />
+        </View>
+      </ImageBackground>
     </LinearGradient>
   );
 }
@@ -48,6 +55,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 50,
     gap: 20,
+  },
+  backgroundImage: {
+    opacity: 0.15,
   },
 });
 
