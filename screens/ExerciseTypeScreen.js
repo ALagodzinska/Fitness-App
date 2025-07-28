@@ -1,11 +1,15 @@
-import React from "react";
-import { View, Text, Button, StyleSheet, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import SectionButton from "../components/SectionButton";
+import exercisesByType from "../data/exercises";
 
 // Probably needs a state for workout
 
 function ExerciseTypeScreen({ navigation }) {
+  function handlePress(exercises) {
+    navigation.navigate("ExerciseScreen", { exercises });
+  }
+
   return (
     <LinearGradient colors={["#004D40", "#E3F2FD"]} style={styles.rootScreen}>
       <ImageBackground
@@ -18,10 +22,22 @@ function ExerciseTypeScreen({ navigation }) {
           <Text style={styles.title}>Exercise Type</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <SectionButton title={"warm-up"} />
-          <SectionButton title={"cardio"} />
-          <SectionButton title={"strength"} />
-          <SectionButton title={"flexibility"} />
+          <SectionButton
+            title={"warm-up"}
+            handlePress={() => handlePress(exercisesByType.warmUp)}
+          />
+          <SectionButton
+            title={"cardio"}
+            handlePress={() => handlePress(exercisesByType.cardio)}
+          />
+          <SectionButton
+            title={"strength"}
+            handlePress={() => handlePress(exercisesByType.strength)}
+          />
+          <SectionButton
+            title={"flexibility"}
+            handlePress={() => handlePress(exercisesByType.flexibility)}
+          />
         </View>
       </ImageBackground>
     </LinearGradient>
