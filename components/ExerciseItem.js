@@ -1,7 +1,11 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React, { useRef, useState } from "react";
-import Swipeable from "react-native-gesture-handler/Swipeable";
+import ReanimatedSwipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import { LinearGradient } from "expo-linear-gradient";
+import Reanimated, {
+  SharedValue,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 
 // Probably needs a state for workout
 
@@ -20,13 +24,16 @@ function ExerciseItem({ item }) {
     if (exerciseCount > 0)
       return (
         <LinearGradient
-          colors={["rgba(255, 77, 77, 0.2)", "rgba(197, 27, 27, 0.71)"]}
+          colors={[
+            "rgba(174, 18, 18, 0.91)",
+            "rgba(175, 37, 37, 0.53)",
+            "rgba(197, 27, 27, 0.18)",
+            "rgba(197, 27, 27, 0.04)",
+          ]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={styles.gradientBackground}
-        >
-          <Text style={styles.deleteText}>X</Text>
-        </LinearGradient>
+        ></LinearGradient>
       );
   };
 
@@ -51,13 +58,13 @@ function ExerciseItem({ item }) {
 
   return (
     <View style={styles.swipeableWrapper}>
-      <Swipeable
+      <ReanimatedSwipeable
         renderLeftActions={renderDeleteGradient}
-        onSwipeableLeftOpen={deleteExercise}
+        onSwipeableOpen={deleteExercise}
         ref={swipeableReference}
         overshootLeft={false}
-        friction={3}
-        leftThreshold={15}
+        friction={10}
+        leftThreshold={20}
       >
         <TouchableOpacity onPress={expand}>
           <View
@@ -100,7 +107,7 @@ function ExerciseItem({ item }) {
             </TouchableOpacity>
           </View>
         )}
-      </Swipeable>
+      </ReanimatedSwipeable>
     </View>
   );
 }
@@ -108,7 +115,7 @@ function ExerciseItem({ item }) {
 const styles = StyleSheet.create({
   swipeableWrapper: {},
   gradientBackground: {
-    width: 40,
+    width: 30,
     marginRight: 0,
     alignSelf: "left",
     height: "100%",
@@ -200,14 +207,6 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 12,
     overflow: "hidden",
-  },
-  deleteText: {
-    color: "#fff",
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 24, // Adjust size as needed
-    flex: 1, // Makes Text take all vertical space to help centering
-    textAlignVertical: "center", // For vertical centering on Android
   },
 });
 
