@@ -1,0 +1,3 @@
+const EXERCISE_DURATION = [30, 60, 120, 200, 300];
+
+export default EXERCISE_DURATION;

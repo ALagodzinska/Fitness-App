@@ -1,17 +1,16 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ReanimatedSwipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import { LinearGradient } from "expo-linear-gradient";
-import Reanimated, {
-  SharedValue,
-  useAnimatedStyle,
-} from "react-native-reanimated";
+import EXERCISE_DURATION from "../constants/exerciseDurations";
+import Exercise from "../models/Exercise";
+import Workout from "../models/Workout";
 
 // Probably needs a state for workout
 
-function ExerciseItem({ item }) {
+function ExerciseItem({ item, workout }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [exerciseTime, setExerciseTime] = useState(30); // Default time
+  const [exerciseTime, setExerciseTime] = useState(item.duration); // Default time
   const [exerciseCount, setExerciseCount] = useState(0);
 
   const swipeableReference = useRef(null);
@@ -39,6 +38,9 @@ function ExerciseItem({ item }) {
 
   function addExercise() {
     setExerciseCount((prevCount) => prevCount + 1);
+    const exercise = new Exercise(item.name, item.type, exerciseTime);
+    workout.addExercise(exercise);
+
     setIsExpanded(false);
     // Logic to add exercise with selected time
     console.log(`Added ${item.name} for ${exerciseTime} seconds`);
@@ -47,14 +49,13 @@ function ExerciseItem({ item }) {
   const deleteExercise = () => {
     if (exerciseCount > 0) {
       setExerciseCount((prevCount) => prevCount - 1);
+      workout.removeLastMatchingExercise(item.name, item.type);
       console.log(`Deleted one instance of ${item.name}`);
     }
     if (swipeableReference.current) {
       swipeableReference.current.close();
     }
   };
-
-  const times = [30, 60, 120, 200, 300];
 
   return (
     <View style={styles.swipeableWrapper}>
@@ -89,7 +90,7 @@ function ExerciseItem({ item }) {
         </TouchableOpacity>
         {isExpanded && (
           <View style={styles.timesRow}>
-            {times.map((time) => (
+            {EXERCISE_DURATION.map((time) => (
               <TouchableOpacity
                 key={time}
                 style={[

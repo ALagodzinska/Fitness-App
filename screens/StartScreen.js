@@ -1,9 +1,17 @@
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import MainButton from "../components/MainButton";
+import { useWorkout } from "../contexts/WorkoutContext";
+import Workout from "../models/Workout";
 
 function StartScreen({ navigation }) {
+  const { setWorkout } = useWorkout();
+
   function handlePress() {
+    const newWorkout = new Workout();
+    setWorkout(newWorkout);
+
+    setWorkout(newWorkout);
     navigation.navigate("ExerciseTypeScreen");
   }
 

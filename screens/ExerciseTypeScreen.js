@@ -1,13 +1,21 @@
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import SectionButton from "../components/SectionButton";
-import exercisesByType from "../data/exercises";
+import EXERCISE_TYPE from "../constants/exerciseTypes";
+import { filterAllExercisesByType } from "../utils/exerciseUtils";
+import { useWorkout } from "../contexts/WorkoutContext";
 
 // Probably needs a state for workout
 
 function ExerciseTypeScreen({ navigation }) {
-  function handlePress(exercises) {
-    navigation.navigate("ExerciseScreen", { exercises });
+  const { workout } = useWorkout();
+
+  function handlePress(typeName) {
+    const exercisesByType = filterAllExercisesByType(typeName);
+    navigation.navigate("ExerciseScreen", {
+      exercisesByType,
+      workout,
+    });
   }
 
   return (
@@ -22,22 +30,16 @@ function ExerciseTypeScreen({ navigation }) {
           <Text style={styles.title}>Exercise Type</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <SectionButton
-            title={"warm-up"}
-            handlePress={() => handlePress(exercisesByType.warmUp)}
-          />
-          <SectionButton
-            title={"cardio"}
-            handlePress={() => handlePress(exercisesByType.cardio)}
-          />
-          <SectionButton
-            title={"strength"}
-            handlePress={() => handlePress(exercisesByType.strength)}
-          />
-          <SectionButton
-            title={"flexibility"}
-            handlePress={() => handlePress(exercisesByType.flexibility)}
-          />
+          {Object.keys(EXERCISE_TYPE).map((key) => {
+            const typeName = EXERCISE_TYPE[key];
+            return (
+              <SectionButton
+                key={key}
+                title={typeName}
+                handlePress={() => handlePress(typeName)}
+              />
+            );
+          })}
         </View>
       </ImageBackground>
     </LinearGradient>

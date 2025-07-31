@@ -6,7 +6,8 @@ import SectionButton from "../components/SectionButton";
 // Probably needs a state for workout
 
 function ExerciseScreen({ route }) {
-  const { exercises } = route.params;
+  const { exercisesByType, workout } = route.params;
+  console.log(exercisesByType);
 
   return (
     <LinearGradient colors={["#004D40", "#E3F2FD"]} style={styles.rootScreen}>
@@ -14,9 +15,11 @@ function ExerciseScreen({ route }) {
         <Text style={styles.title}>Exercise Screen</Text>
         <View style={styles.listContainer}>
           <FlatList
-            data={exercises}
+            data={exercisesByType}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => <ExerciseItem item={item} />}
+            renderItem={({ item }) => (
+              <ExerciseItem item={item} workout={workout} />
+            )}
           />
         </View>
         <View style={styles.buttonContainer}>
