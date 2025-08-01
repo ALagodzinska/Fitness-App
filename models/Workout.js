@@ -8,15 +8,19 @@ class Workout {
 
   addExercise(exercise) {
     if (!(exercise instanceof Exercise)) {
-      throw new Error(
-        "Invalid exercise: must be an instance of Exercise or its subclasses"
-      );
+      throw new Error("Invalid exercise: must be an instance of Exercise");
     }
-    const exerciseWithID = {
-      ...exercise,
-      id: this.nextID++,
-    };
-    this.exercises.push(exerciseWithID);
+
+    // Clone the current workout
+    const newWorkout = new Workout();
+    newWorkout.exercises = [...this.exercises];
+    newWorkout.nextID = this.nextID;
+
+    // Add new exercise with ID
+    const exerciseWithID = { ...exercise, id: newWorkout.nextID++ };
+    newWorkout.exercises.push(exerciseWithID);
+
+    return newWorkout; // return new instance
   }
 
   removeExerciseById(id) {
@@ -24,24 +28,58 @@ class Workout {
   }
 
   removeLastMatchingExercise(name, type) {
-    // Find matching exercises
-    const matching = this.exercises.filter(
-      (exercise) => exercise.name === name && exercise.type === type
+    /// Clone the current workout
+    const newWorkout = new Workout();
+    newWorkout.exercises = [...this.exercises];
+    newWorkout.nextID = this.nextID;
+
+    // Find matching exercises in newWorkout.exercises
+    const matching = newWorkout.exercises.filter(
+      (ex) => ex.name === name && ex.type === type
     );
 
-    if (matching.length === 0) return;
+    if (matching.length === 0) return newWorkout; // nothing to remove
 
-    // Find the one with the highest ID
+    // Find last added
     const lastAdded = matching.reduce((prev, current) =>
       current.id > prev.id ? current : prev
     );
 
-    // Remove it
-    this.removeExerciseById(lastAdded.id);
+    // Remove it by id
+    newWorkout.exercises = newWorkout.exercises.filter(
+      (ex) => ex.id !== lastAdded.id
+    );
+
+    return newWorkout; // return new instance
   }
 
   filterExercisesByType(type) {
     return this.exercises.filter((exercise) => exercise.type === type);
+  }
+
+  getGroupedStatsByType(type) {
+    const result = [];
+
+    const grouped = {};
+
+    for (const exercise of this.exercises) {
+      if (exercise.type === type) {
+        const key = exercise.name;
+        if (!grouped[key]) {
+          grouped[key] = {
+            exercise,
+            count: 0,
+          };
+        }
+        grouped[key].count++;
+      }
+    }
+
+    for (const key in grouped) {
+      result.push(grouped[key]);
+    }
+
+    return result;
   }
 }
 

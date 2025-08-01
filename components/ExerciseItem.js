@@ -5,10 +5,12 @@ import { LinearGradient } from "expo-linear-gradient";
 import EXERCISE_DURATION from "../constants/exerciseDurations";
 import Exercise from "../models/Exercise";
 import Workout from "../models/Workout";
+import { useWorkout } from "../contexts/WorkoutContext";
 
 // Probably needs a state for workout
 
-function ExerciseItem({ item, workout }) {
+function ExerciseItem({ item }) {
+  const { workout, setWorkout } = useWorkout();
   const [isExpanded, setIsExpanded] = useState(false);
   const [exerciseTime, setExerciseTime] = useState(item.duration); // Default time
   const [exerciseCount, setExerciseCount] = useState(0);
@@ -39,7 +41,8 @@ function ExerciseItem({ item, workout }) {
   function addExercise() {
     setExerciseCount((prevCount) => prevCount + 1);
     const exercise = new Exercise(item.name, item.type, exerciseTime);
-    workout.addExercise(exercise);
+    const updatedWorkout = workout.addExercise(exercise);
+    setWorkout(updatedWorkout);
 
     setIsExpanded(false);
     // Logic to add exercise with selected time
@@ -49,8 +52,12 @@ function ExerciseItem({ item, workout }) {
   const deleteExercise = () => {
     if (exerciseCount > 0) {
       setExerciseCount((prevCount) => prevCount - 1);
-      workout.removeLastMatchingExercise(item.name, item.type);
+      const updatedWorkout = workout.removeLastMatchingExercise(
+        item.name,
+        item.type
+      );
       console.log(`Deleted one instance of ${item.name}`);
+      setWorkout(updatedWorkout);
     }
     if (swipeableReference.current) {
       swipeableReference.current.close();

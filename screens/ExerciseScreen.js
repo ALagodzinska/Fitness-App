@@ -8,21 +8,18 @@ import WorkoutPreview from "../components/WorkoutPreview";
 // Probably needs a state for workout
 
 function ExerciseScreen({ route }) {
-  const { exercisesByType, workout } = route.params;
-  console.log(exercisesByType);
+  const { exercisesByType, typeName } = route.params;
 
   return (
     <LinearGradient colors={["#004D40", "#E3F2FD"]} style={styles.rootScreen}>
       <View style={styles.contentWrapper}>
         <Text style={styles.title}>Exercise Screen</Text>
-        <WorkoutPreview workout={workout} />
+        <WorkoutPreview type={typeName} />
         <View style={styles.listContainer}>
           <FlatList
             data={exercisesByType}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <ExerciseItem item={item} workout={workout} />
-            )}
+            renderItem={({ item }) => <ExerciseItem item={item} />}
           />
         </View>
         <View style={styles.buttonContainer}>

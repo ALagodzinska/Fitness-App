@@ -8,13 +8,11 @@ import { useWorkout } from "../contexts/WorkoutContext";
 // Probably needs a state for workout
 
 function ExerciseTypeScreen({ navigation }) {
-  const { workout } = useWorkout();
-
   function handlePress(typeName) {
     const exercisesByType = filterAllExercisesByType(typeName);
     navigation.navigate("ExerciseScreen", {
       exercisesByType,
-      workout,
+      typeName,
     });
   }
 
