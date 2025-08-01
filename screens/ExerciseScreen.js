@@ -2,6 +2,8 @@ import { Text, StyleSheet, FlatList, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import ExerciseItem from "../components/ExerciseItem";
 import SectionButton from "../components/SectionButton";
+import Workout from "../models/Workout";
+import WorkoutPreview from "../components/WorkoutPreview";
 
 // Probably needs a state for workout
 
@@ -13,6 +15,7 @@ function ExerciseScreen({ route }) {
     <LinearGradient colors={["#004D40", "#E3F2FD"]} style={styles.rootScreen}>
       <View style={styles.contentWrapper}>
         <Text style={styles.title}>Exercise Screen</Text>
+        <WorkoutPreview workout={workout} />
         <View style={styles.listContainer}>
           <FlatList
             data={exercisesByType}
