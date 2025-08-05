@@ -4,16 +4,21 @@ import SectionButton from "../components/SectionButton";
 import EXERCISE_TYPE from "../constants/exerciseTypes";
 import { filterAllExercisesByType } from "../utils/exerciseUtils";
 import { useWorkout } from "../contexts/WorkoutContext";
+import MainButton from "../components/MainButton";
 
 // Probably needs a state for workout
 
 function ExerciseTypeScreen({ navigation }) {
-  function handlePress(typeName) {
+  function navigateToExerciseType(typeName) {
     const exercisesByType = filterAllExercisesByType(typeName);
     navigation.navigate("ExerciseScreen", {
       exercisesByType,
       typeName,
     });
+  }
+
+  function navigateToWorkoutPlan() {
+    navigation.navigate("WorkoutPlan");
   }
 
   return (
@@ -34,10 +39,16 @@ function ExerciseTypeScreen({ navigation }) {
               <SectionButton
                 key={key}
                 title={typeName}
-                handlePress={() => handlePress(typeName)}
+                handlePress={() => navigateToExerciseType(typeName)}
               />
             );
           })}
+        </View>
+        <View style={styles.mainButtonContainer}>
+          <MainButton
+            title="START"
+            handlePress={() => navigateToWorkoutPlan()}
+          />
         </View>
       </ImageBackground>
     </LinearGradient>
@@ -69,11 +80,15 @@ const styles = StyleSheet.create({
   buttonContainer: {
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 50,
+    paddingTop: 25,
     gap: 20,
   },
   backgroundImage: {
     opacity: 0.15,
+  },
+  mainButtonContainer: {
+    alignItems: "center",
+    marginTop: 100, // Add space from bottom
   },
 });
 

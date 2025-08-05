@@ -24,7 +24,7 @@ function StartScreen({ navigation }) {
         imageStyle={styles.backgroundImage}
       >
         <View style={styles.container}>
-          <MainButton handlePress={handlePress} />
+          <MainButton handlePress={handlePress} title={"START WORKOUT"} />
         </View>
       </ImageBackground>
     </LinearGradient>
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 500,
   },
   rootScreen: {
     flex: 1,
