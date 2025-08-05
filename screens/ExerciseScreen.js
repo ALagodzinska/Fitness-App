@@ -7,13 +7,17 @@ import WorkoutPreview from "../components/WorkoutPreview";
 
 // Probably needs a state for workout
 
-function ExerciseScreen({ route }) {
+function ExerciseScreen({ navigation, route }) {
   const { exercisesByType, typeName } = route.params;
+
+  function handleContinuePress() {
+    navigation.navigate("ExerciseTypeScreen");
+  }
 
   return (
     <LinearGradient colors={["#004D40", "#E3F2FD"]} style={styles.rootScreen}>
       <View style={styles.contentWrapper}>
-        <Text style={styles.title}>Exercise Screen</Text>
+        <Text style={styles.title}>{typeName.toUpperCase()} EXERCISES</Text>
         <WorkoutPreview type={typeName} />
         <View style={styles.listContainer}>
           <FlatList
@@ -23,7 +27,7 @@ function ExerciseScreen({ route }) {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <SectionButton title={"CONTINUE"} />
+          <SectionButton title={"CONTINUE"} handlePress={handleContinuePress} />
         </View>
       </View>
     </LinearGradient>
@@ -44,7 +48,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 8,
     marginTop: 70,
     color: "#fff",
     textAlign: "center",

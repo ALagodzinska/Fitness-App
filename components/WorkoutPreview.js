@@ -14,14 +14,12 @@ function WorkoutPreview({ type }) {
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
     >
-      {grouped.map(({ exercise, count }) => (
-        <View key={exercise.name} style={styles.exerciseItem}>
+      {grouped.map(({ name, count }) => (
+        <View key={name} style={styles.exerciseItem}>
           <Text style={styles.countText}>{count}x</Text>
           <View style={styles.circle}>
             <Text style={styles.exerciseName}>
-              {exercise.name.length > 10
-                ? exercise.name.slice(0, 10) + ".."
-                : exercise.name}
+              {name.length > 10 ? name.slice(0, 10) + ".." : name}
             </Text>
           </View>
         </View>
@@ -39,6 +37,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 10,
     alignItems: "center",
+    marginBottom: 5,
   },
   exerciseItem: {
     alignItems: "center",

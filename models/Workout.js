@@ -4,6 +4,7 @@ class Workout {
   constructor(date) {
     this.exercises = [];
     this.nextID = 1; // Unique ID for each exercise
+    this.stats = [];
   }
 
   addExercise(exercise) {
@@ -15,16 +16,17 @@ class Workout {
     const newWorkout = new Workout();
     newWorkout.exercises = [...this.exercises];
     newWorkout.nextID = this.nextID;
+    newWorkout.stats = [...this.stats];
 
     // Add new exercise with ID
     const exerciseWithID = { ...exercise, id: newWorkout.nextID++ };
     newWorkout.exercises.push(exerciseWithID);
 
-    return newWorkout; // return new instance
-  }
+    console.log("addindg", exercise.name, exercise.type);
 
-  removeExerciseById(id) {
-    this.exercises = this.exercises.filter((exercise) => exercise.id !== id);
+    newWorkout.incrementStats(exercise.name, exercise.type);
+
+    return newWorkout; // return new instance
   }
 
   removeLastMatchingExercise(name, type) {
@@ -32,6 +34,7 @@ class Workout {
     const newWorkout = new Workout();
     newWorkout.exercises = [...this.exercises];
     newWorkout.nextID = this.nextID;
+    newWorkout.stats = [...this.stats];
 
     // Find matching exercises in newWorkout.exercises
     const matching = newWorkout.exercises.filter(
@@ -39,6 +42,9 @@ class Workout {
     );
 
     if (matching.length === 0) return newWorkout; // nothing to remove
+
+    // Decrement stats
+    newWorkout.decrementStats(name, type);
 
     // Find last added
     const lastAdded = matching.reduce((prev, current) =>
@@ -57,29 +63,36 @@ class Workout {
     return this.exercises.filter((exercise) => exercise.type === type);
   }
 
-  getGroupedStatsByType(type) {
-    const result = [];
+  incrementStats(name, type) {
+    const stat = this.stats.find((s) => s.name === name && s.type === type);
+    if (stat) {
+      stat.count += 1;
+    } else {
+      this.stats.push({ name, type, count: 1 });
+    }
+  }
 
-    const grouped = {};
-
-    for (const exercise of this.exercises) {
-      if (exercise.type === type) {
-        const key = exercise.name;
-        if (!grouped[key]) {
-          grouped[key] = {
-            exercise,
-            count: 0,
-          };
-        }
-        grouped[key].count++;
+  decrementStats(name, type) {
+    const statIndex = this.stats.findIndex(
+      (s) => s.name === name && s.type === type
+    );
+    if (statIndex !== -1) {
+      this.stats[statIndex].count -= 1;
+      if (this.stats[statIndex].count <= 0) {
+        this.stats.splice(statIndex, 1); // Remove if count is zero
       }
     }
+  }
 
-    for (const key in grouped) {
-      result.push(grouped[key]);
-    }
+  getGroupedStatsByType(type) {
+    return this.stats.filter((stat) => stat.type === type);
+  }
 
-    return result;
+  getExerciseCount(name, type) {
+    const exercisesStats = this.stats.find(
+      (s) => s.name === name && s.type === type
+    );
+    return exercisesStats ? exercisesStats.count : 0;
   }
 }
 

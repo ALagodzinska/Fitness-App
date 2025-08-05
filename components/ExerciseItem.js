@@ -13,7 +13,8 @@ function ExerciseItem({ item }) {
   const { workout, setWorkout } = useWorkout();
   const [isExpanded, setIsExpanded] = useState(false);
   const [exerciseTime, setExerciseTime] = useState(item.duration); // Default time
-  const [exerciseCount, setExerciseCount] = useState(0);
+
+  const exerciseCount = workout.getExerciseCount(item.name, item.type);
 
   const swipeableReference = useRef(null);
 
@@ -39,7 +40,6 @@ function ExerciseItem({ item }) {
   };
 
   function addExercise() {
-    setExerciseCount((prevCount) => prevCount + 1);
     const exercise = new Exercise(item.name, item.type, exerciseTime);
     const updatedWorkout = workout.addExercise(exercise);
     setWorkout(updatedWorkout);
@@ -51,7 +51,6 @@ function ExerciseItem({ item }) {
 
   const deleteExercise = () => {
     if (exerciseCount > 0) {
-      setExerciseCount((prevCount) => prevCount - 1);
       const updatedWorkout = workout.removeLastMatchingExercise(
         item.name,
         item.type
