@@ -1,13 +1,20 @@
 import React from "react";
 import { StyleSheet, Text, Pressable } from "react-native";
 
-function MainButton({ title, handlePress }) {
+function MainButton({ title, handlePress, disabled = false }) {
   return (
     <Pressable
-      style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
-      onPress={handlePress}
+      style={({ pressed }) => [
+        styles.button,
+        pressed && styles.buttonPressed,
+        disabled && styles.buttonDisabled,
+      ]}
+      onPress={disabled ? null : handlePress}
+      disabled={disabled}
     >
-      <Text style={styles.buttonText}>{title}</Text>
+      <Text style={[styles.buttonText, disabled && styles.buttonTextDisabled]}>
+        {title}
+      </Text>
     </Pressable>
   );
 }
@@ -42,5 +49,13 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     textTransform: "uppercase", // Ensures the title is displayed in uppercase
     textAlign: "center", // Centers the text within the button
+  },
+  buttonDisabled: {
+    backgroundColor: "#8da4a3ff",
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  buttonTextDisabled: {
+    color: "#586968ff",
   },
 });
