@@ -88,6 +88,33 @@ class Workout {
     return this.stats.filter((stat) => stat.type === type);
   }
 
+  getExerciseByTypeCount(type) {
+    return this.getGroupedStatsByType(type).reduce(
+      (total, stat) => total + stat.count,
+      0
+    );
+  }
+
+  getTotalWorkoutDuration() {
+    return this.exercises.reduce(
+      (total, exercise) => total + exercise.duration,
+      0
+    );
+  }
+
+  getDurationAsString() {
+    const durationInSeconds = this.getTotalWorkoutDuration();
+    if (durationInSeconds <= 0) return "";
+    const hours = Math.floor(durationInSeconds / 3600);
+    const minutes = Math.floor(durationInSeconds / 60);
+    const seconds = durationInSeconds % 60;
+    if (hours > 0)
+      return seconds > 0
+        ? `${hours} hr ${minutes} min ${seconds} s`
+        : `${hours} hr ${minutes} min`;
+    return seconds > 0 ? `${minutes} min ${seconds} s` : `${minutes} min`;
+  }
+
   getExerciseCount(name, type) {
     const exercisesStats = this.stats.find(
       (s) => s.name === name && s.type === type

@@ -21,6 +21,9 @@ function ExerciseTypeScreen({ navigation }) {
     navigation.navigate("WorkoutPlan");
   }
 
+  const { workout } = useWorkout();
+  const workoutDuration = workout.getDurationAsString();
+
   return (
     <LinearGradient colors={["#004D40", "#E3F2FD"]} style={styles.rootScreen}>
       <ImageBackground
@@ -35,15 +38,25 @@ function ExerciseTypeScreen({ navigation }) {
         <View style={styles.buttonContainer}>
           {Object.keys(EXERCISE_TYPE).map((key) => {
             const typeName = EXERCISE_TYPE[key];
+            const count = workout.getExerciseByTypeCount(typeName);
             return (
-              <SectionButton
-                key={key}
-                title={typeName}
-                handlePress={() => navigateToExerciseType(typeName)}
-              />
+              <View key={key} style={styles.buttonRow}>
+                <SectionButton
+                  title={typeName}
+                  handlePress={() => navigateToExerciseType(typeName)}
+                />
+                {count > 0 && <Text style={styles.countText}>X{count}</Text>}
+              </View>
             );
           })}
         </View>
+        {workoutDuration !== "" && (
+          <View style={styles.durationContainer}>
+            <Text style={styles.durationLabel}>DURATION</Text>
+            <Text style={styles.durationValue}>{workoutDuration}</Text>
+          </View>
+        )}
+
         <View style={styles.mainButtonContainer}>
           <MainButton
             title="START"
@@ -88,7 +101,43 @@ const styles = StyleSheet.create({
   },
   mainButtonContainer: {
     alignItems: "center",
-    marginTop: 100, // Add space from bottom
+    marginTop: 15, // Add space from bottom
+    position: "absolute",
+    bottom: 80,
+    left: 0,
+    right: 0,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 15,
+  },
+  countText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 15,
+    position: "absolute",
+    right: -30,
+    textAlign: "center",
+  },
+  durationContainer: {
+    alignItems: "center",
+    marginTop: 50,
+  },
+  durationLabel: {
+    fontSize: 12,
+    color: "#E0F2F1",
+    letterSpacing: 1,
+    marginBottom: 5,
+  },
+  durationValue: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#fff",
+    textShadowColor: "rgba(0,0,0,0.25)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
   },
 });
 
