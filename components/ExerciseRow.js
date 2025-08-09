@@ -3,10 +3,16 @@ import ReanimatedSwipeable from "react-native-gesture-handler/ReanimatedSwipeabl
 import DeleteGradient from "./DeleteGradient";
 import { useRef } from "react";
 import { useWorkout } from "../contexts/WorkoutContext";
+import EXERCISE_TYPE from "../constants/exerciseTypes";
 
 function ExerciseRow({ exercise, onLongPress, isActive }) {
   const { workout, setWorkout } = useWorkout();
   const swipeableReference = useRef(null);
+
+  const getTypeColor = (type) => {
+    const typeObj = Object.values(EXERCISE_TYPE).find((et) => et.name === type);
+    return typeObj ? typeObj.color : "#E0F2F1";
+  };
 
   const renderDeleteGradient = () => {
     return <DeleteGradient style={styles.gradientBackground} />;
@@ -29,7 +35,11 @@ function ExerciseRow({ exercise, onLongPress, isActive }) {
     >
       <Pressable
         onLongPress={onLongPress}
-        style={[styles.exerciseRow, isActive && styles.activeRow]}
+        style={[
+          styles.exerciseRow,
+          { backgroundColor: getTypeColor(exercise.type) },
+          isActive && styles.activeRow,
+        ]}
       >
         <Image
           source={require(`../assets/images/type-icons/cardio.png`)}
@@ -53,7 +63,7 @@ const styles = {
   },
   exerciseText: {
     fontSize: 16,
-    color: "#333",
+    color: "#181818ff",
   },
   itemImage: {
     width: 40,

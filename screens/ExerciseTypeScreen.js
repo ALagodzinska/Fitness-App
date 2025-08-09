@@ -37,13 +37,13 @@ function ExerciseTypeScreen({ navigation }) {
         </View>
         <View style={styles.buttonContainer}>
           {Object.keys(EXERCISE_TYPE).map((key) => {
-            const typeName = EXERCISE_TYPE[key];
-            const count = workout.getExerciseByTypeCount(typeName);
+            const typeObj = EXERCISE_TYPE[key];
+            const count = workout.getExerciseByTypeCount(typeObj.name);
             return (
               <View key={key} style={styles.buttonRow}>
                 <SectionButton
-                  title={typeName}
-                  handlePress={() => navigateToExerciseType(typeName)}
+                  title={typeObj.name}
+                  handlePress={() => navigateToExerciseType(typeObj.name)}
                 />
                 {count > 0 && <Text style={styles.countText}>X{count}</Text>}
               </View>

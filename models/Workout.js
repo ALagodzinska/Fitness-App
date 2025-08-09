@@ -133,6 +133,20 @@ class Workout {
     newWorkout.stats = [...this.stats];
     return newWorkout;
   }
+
+  shuffleExercises() {
+    const shuffled = [...this.exercises];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+
+    const newWorkout = new Workout();
+    newWorkout.exercises = shuffled;
+    newWorkout.nextID = this.nextID;
+    newWorkout.stats = [...this.stats];
+    return newWorkout;
+  }
 }
 
 export default Workout;

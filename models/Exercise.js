@@ -2,7 +2,7 @@ import EXERCISE_TYPE from "../constants/exerciseTypes";
 
 class Exercise {
   constructor(name, type, duration) {
-    if (!Object.values(EXERCISE_TYPE).includes(type)) {
+    if (!Object.values(EXERCISE_TYPE).map(et => et.name).includes(type)) {
       throw new Error(`Invalid exercise type: ${type}`);
     }
 
