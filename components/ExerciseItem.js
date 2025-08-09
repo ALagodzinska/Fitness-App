@@ -6,6 +6,7 @@ import EXERCISE_DURATION from "../constants/exerciseDurations";
 import Exercise from "../models/Exercise";
 import Workout from "../models/Workout";
 import { useWorkout } from "../contexts/WorkoutContext";
+import DeleteGradient from "./DeleteGradient";
 
 // Probably needs a state for workout
 
@@ -22,23 +23,6 @@ function ExerciseItem({ item }) {
     setIsExpanded((previous) => !previous);
   };
 
-  const renderDeleteGradient = () => {
-    if (exerciseCount > 0)
-      return (
-        <LinearGradient
-          colors={[
-            "rgba(174, 18, 18, 0.91)",
-            "rgba(175, 37, 37, 0.53)",
-            "rgba(197, 27, 27, 0.18)",
-            "rgba(197, 27, 27, 0.04)",
-          ]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.gradientBackground}
-        ></LinearGradient>
-      );
-  };
-
   function addExercise() {
     const exercise = new Exercise(item.name, item.type, exerciseTime);
     const updatedWorkout = workout.addExercise(exercise);
@@ -48,6 +32,12 @@ function ExerciseItem({ item }) {
     // Logic to add exercise with selected time
     console.log(`Added ${item.name} for ${exerciseTime} seconds`);
   }
+
+  const renderDeleteGradient = () => {
+    if (exerciseCount > 0) {
+      return <DeleteGradient />;
+    }
+  };
 
   const deleteExercise = () => {
     if (exerciseCount > 0) {
@@ -64,7 +54,7 @@ function ExerciseItem({ item }) {
   };
 
   return (
-    <View style={styles.swipeableWrapper}>
+    <View>
       <ReanimatedSwipeable
         renderLeftActions={renderDeleteGradient}
         onSwipeableOpen={deleteExercise}
@@ -120,16 +110,6 @@ function ExerciseItem({ item }) {
 }
 
 const styles = StyleSheet.create({
-  swipeableWrapper: {},
-  gradientBackground: {
-    width: 30,
-    marginRight: 0,
-    alignSelf: "left",
-    height: "100%",
-    marginTop: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   expanded: { borderTopLeftRadius: 8, borderTopRightRadius: 8 },
   closed: { borderRadius: 8 },
   itemRow: {

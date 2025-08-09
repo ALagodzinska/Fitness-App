@@ -16,6 +16,12 @@ class Exercise {
     this.type = type;
     this.duration = duration; // in seconds
   }
+
+  getDurationAsString() {
+    const minutes = Math.floor(this.duration / 60);
+    const seconds = this.duration % 60;
+    return `${minutes}m ${seconds}s`;
+  }
 }
 
 export default Exercise;

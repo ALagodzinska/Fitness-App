@@ -19,44 +19,48 @@ class Workout {
     newWorkout.stats = [...this.stats];
 
     // Add new exercise with ID
-    const exerciseWithID = { ...exercise, id: newWorkout.nextID++ };
+    const exerciseWithID = new Exercise(
+      exercise.name,
+      exercise.type,
+      exercise.duration
+    );
+    exerciseWithID.id = newWorkout.nextID++;
     newWorkout.exercises.push(exerciseWithID);
-
-    console.log("addindg", exercise.name, exercise.type);
 
     newWorkout.incrementStats(exercise.name, exercise.type);
 
     return newWorkout; // return new instance
   }
 
-  removeLastMatchingExercise(name, type) {
-    /// Clone the current workout
+  removeExerciseById(id) {
     const newWorkout = new Workout();
     newWorkout.exercises = [...this.exercises];
     newWorkout.nextID = this.nextID;
     newWorkout.stats = [...this.stats];
 
-    // Find matching exercises in newWorkout.exercises
-    const matching = newWorkout.exercises.filter(
-      (ex) => ex.name === name && ex.type === type
-    );
-
-    if (matching.length === 0) return newWorkout; // nothing to remove
+    const exerciseToRemove = newWorkout.exercises.find((ex) => ex.id === id);
+    if (!exerciseToRemove) return newWorkout;
 
     // Decrement stats
-    newWorkout.decrementStats(name, type);
+    newWorkout.decrementStats(exerciseToRemove.name, exerciseToRemove.type);
 
-    // Find last added
+    // Remove by id
+    newWorkout.exercises = newWorkout.exercises.filter((ex) => ex.id !== id);
+
+    return newWorkout;
+  }
+
+  removeLastMatchingExercise(name, type) {
+    const matching = this.exercises.filter(
+      (ex) => ex.name === name && ex.type === type
+    );
+    if (matching.length === 0) return this;
+
     const lastAdded = matching.reduce((prev, current) =>
       current.id > prev.id ? current : prev
     );
 
-    // Remove it by id
-    newWorkout.exercises = newWorkout.exercises.filter(
-      (ex) => ex.id !== lastAdded.id
-    );
-
-    return newWorkout; // return new instance
+    return this.removeExerciseById(lastAdded.id);
   }
 
   filterExercisesByType(type) {
@@ -120,6 +124,14 @@ class Workout {
       (s) => s.name === name && s.type === type
     );
     return exercisesStats ? exercisesStats.count : 0;
+  }
+
+  reorderExercises(newOrder) {
+    const newWorkout = new Workout();
+    newWorkout.exercises = newOrder;
+    newWorkout.nextID = this.nextID;
+    newWorkout.stats = [...this.stats];
+    return newWorkout;
   }
 }
 
