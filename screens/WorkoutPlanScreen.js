@@ -3,6 +3,7 @@ import { View, Text, Button, TouchableOpacity, Image } from "react-native";
 import { useWorkout } from "../contexts/WorkoutContext";
 import ExerciseRow from "../components/ExerciseRow";
 import DraggableFlatList from "react-native-draggable-flatlist";
+import MainButton from "../components/MainButton";
 
 function WorkoutPlanScreen({ navigation }) {
   const { workout, setWorkout } = useWorkout();
@@ -11,6 +12,10 @@ function WorkoutPlanScreen({ navigation }) {
     const newWorkout = workout.reorderExercises(data);
     setWorkout(newWorkout);
   };
+
+  function navigateToSessionScreen() {
+    navigation.navigate("SessionScreen");
+  }
 
   const renderItem = ({ item, drag, isActive }) => (
     <ExerciseRow exercise={item} onLongPress={drag} isActive={isActive} />
@@ -36,12 +41,20 @@ function WorkoutPlanScreen({ navigation }) {
           resizeMode="contain"
         />
       </TouchableOpacity>
-      <DraggableFlatList
-        data={workout.exercises}
-        onDragEnd={handleDragEnd}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-      />
+      <View style={styles.listContainer}>
+        <DraggableFlatList
+          data={workout.exercises}
+          onDragEnd={handleDragEnd}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+        />
+      </View>
+      <View style={styles.mainButtonContainer}>
+        <MainButton
+          title="Start"
+          handlePress={() => navigateToSessionScreen()}
+        />
+      </View>
     </LinearGradient>
   );
 }
@@ -74,6 +87,16 @@ const styles = {
   shuffleIcon: {
     width: 24,
     height: 24,
+  },
+  mainButtonContainer: {
+    alignItems: "center",
+    position: "absolute",
+    bottom: 60,
+    left: 0,
+    right: 0,
+  },
+  listContainer: {
+    height: "65%",
   },
 };
 

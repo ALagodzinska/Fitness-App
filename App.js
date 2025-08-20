@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { WorkoutProvider } from "./contexts/WorkoutContext";
 import WorkoutPlanScreen from "./screens/WorkoutPlanScreen";
+import SessionScreen from "./screens/SessionScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ export default function App() {
             />
             <Stack.Screen name="ExerciseScreen" component={ExerciseScreen} />
             <Stack.Screen name="WorkoutPlan" component={WorkoutPlanScreen} />
+            <Stack.Screen name="SessionScreen" component={SessionScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </WorkoutProvider>

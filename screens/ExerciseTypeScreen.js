@@ -59,7 +59,7 @@ function ExerciseTypeScreen({ navigation }) {
 
         <View style={styles.mainButtonContainer}>
           <MainButton
-            title="START"
+            title="VIEW WORKOUT"
             handlePress={() => navigateToWorkoutPlan()}
             disabled={workout.exercises.length === 0}
           />
