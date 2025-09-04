@@ -1,5 +1,6 @@
 import { Text, View } from "react-native";
 
+// Testing
 function SessionScreen() {
   return (
     <View>
