@@ -3,9 +3,7 @@ import { useWorkout } from "../contexts/WorkoutContext";
 
 function WorkoutPreview({ type }) {
   const { workout } = useWorkout();
-  console.log(workout);
   const grouped = workout.getGroupedStatsByType(type);
-  console.log("hERE", grouped);
 
   return (
     <ScrollView

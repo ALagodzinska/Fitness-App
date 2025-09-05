@@ -20,7 +20,6 @@ function ExerciseRow({ exercise, onLongPress, isActive }) {
 
   const deleteExercise = () => {
     const updatedWorkout = workout.removeExerciseById(exercise.id);
-    console.log(`Deleted one instance of ${exercise.name}`);
     setWorkout(updatedWorkout);
   };
 

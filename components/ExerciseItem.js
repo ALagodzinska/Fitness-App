@@ -29,8 +29,6 @@ function ExerciseItem({ item }) {
     setWorkout(updatedWorkout);
 
     setIsExpanded(false);
-    // Logic to add exercise with selected time
-    console.log(`Added ${item.name} for ${exerciseTime} seconds`);
   }
 
   const renderDeleteGradient = () => {
@@ -45,7 +43,6 @@ function ExerciseItem({ item }) {
         item.name,
         item.type
       );
-      console.log(`Deleted one instance of ${item.name}`);
       setWorkout(updatedWorkout);
     }
     if (swipeableReference.current) {
