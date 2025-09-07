@@ -3,6 +3,7 @@ import { useWorkout } from "../contexts/WorkoutContext";
 import { useEffect, useState } from "react";
 import { WORKOUT_STATUS } from "../constants/workoutStatus";
 import { LinearGradient } from "expo-linear-gradient";
+import ExerciseTime from "../components/ExerciseTime";
 
 function SessionScreen() {
   const { workout } = useWorkout();
@@ -70,6 +71,10 @@ function SessionScreen() {
           {workout.exercises[session.activeExerciseIndex].name}
         </Text>
         <Text style={styles.timeText}>{session.timeRemainingInExercise}s</Text>
+        <ExerciseTime
+          timeRemaining={session.timeRemainingInExercise}
+          duration={workout.exercises[session.activeExerciseIndex].duration}
+        />
         <Text style={styles.totalTimeText}>
           Total: {session.totalTimeRemaining}s
         </Text>
