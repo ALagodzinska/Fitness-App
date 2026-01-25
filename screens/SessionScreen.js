@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { WORKOUT_STATUS } from "../constants/workoutStatus";
 import { LinearGradient } from "expo-linear-gradient";
 import ExerciseTime from "../components/ExerciseTime";
+import { convertSecondsToMins } from "../utils/exerciseUtils";
+import { setAudioModeAsync, useAudioPlayer } from "expo-audio";
 
 function SessionScreen() {
   const { workout } = useWorkout();
@@ -20,6 +22,13 @@ function SessionScreen() {
       let exerciseTime = prevSession.timeRemainingInExercise - 1;
       let totalTimeLeft = prevSession.totalTimeRemaining - 1;
       let activeIndex = prevSession.activeExerciseIndex;
+
+      // play beep when there are 3 seconds left
+      if (exerciseTime === 3) {
+        // fire-and-forget
+        console.log(session.timeRemainingInExercise);
+        playCountdownSound();
+      }
 
       if (totalTimeLeft === 0) {
         return {
@@ -52,6 +61,25 @@ function SessionScreen() {
   }
 
   useEffect(() => {
+    setAudioModeAsync({ playsInSilentMode: true });
+  }, []);
+
+  const countdownPlayer = useAudioPlayer(
+    require("../assets/sound/countdown.mp3"),
+  );
+
+  const playCountdownSound = async () => {
+    if (!countdownPlayer?.isLoaded) return;
+
+    try {
+      await countdownPlayer.seekTo(0); // rewind
+      countdownPlayer.play();
+    } catch (e) {
+      console.warn("Countdown sound play error", e);
+    }
+  };
+
+  useEffect(() => {
     const interval = setInterval(() => {
       if (session.status === WORKOUT_STATUS.INPROGRESS) {
         updateSession();
@@ -76,7 +104,7 @@ function SessionScreen() {
           duration={workout.exercises[session.activeExerciseIndex].duration}
         />
         <Text style={styles.totalTimeText}>
-          Total: {session.totalTimeRemaining}s
+          Total: {convertSecondsToMins(session.totalTimeRemaining)}
         </Text>
       </View>
     </LinearGradient>
