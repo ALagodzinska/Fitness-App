@@ -25,8 +25,6 @@ function SessionScreen() {
 
       // play beep when there are 3 seconds left
       if (exerciseTime === 3) {
-        // fire-and-forget
-        console.log(session.timeRemainingInExercise);
         playCountdownSound();
       }
 
