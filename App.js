@@ -27,7 +27,11 @@ export default function App() {
             />
             <Stack.Screen name="ExerciseScreen" component={ExerciseScreen} />
             <Stack.Screen name="WorkoutPlan" component={WorkoutPlanScreen} />
-            <Stack.Screen name="SessionScreen" component={SessionScreen} />
+            <Stack.Screen
+              name="SessionScreen"
+              component={SessionScreen}
+              options={{ gestureEnabled: false }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </WorkoutProvider>
