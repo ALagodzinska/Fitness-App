@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Pressable, Image } from "react-native";
 import { useWorkout } from "../contexts/WorkoutContext";
 import { useEffect, useState } from "react";
 import { WORKOUT_STATUS } from "../constants/workoutStatus";
@@ -16,6 +16,16 @@ function SessionScreen() {
     totalTimeRemaining: workout.getTotalWorkoutDuration(),
     status: WORKOUT_STATUS.INPROGRESS,
   });
+
+  function handlePause() {
+    setSession((prev) => ({
+      ...prev,
+      status:
+        prev.status === WORKOUT_STATUS.INPROGRESS
+          ? WORKOUT_STATUS.PAUSED
+          : WORKOUT_STATUS.INPROGRESS,
+    }));
+  }
 
   function updateSession() {
     setSession((prevSession) => {
@@ -104,6 +114,36 @@ function SessionScreen() {
         <Text style={styles.totalTimeText}>
           Total: {convertSecondsToMins(session.totalTimeRemaining)}
         </Text>
+        <View style={styles.controlsContainer}>
+          <Pressable style={styles.roundButton} onPress={handlePause}>
+            <Image
+              source={
+                session.status === WORKOUT_STATUS.INPROGRESS
+                  ? require("../assets/icons/pause.png")
+                  : require("../assets/icons/play.png")
+              }
+              style={styles.iconImage}
+              resizeMode="contain"
+            />
+          </Pressable>
+          <Pressable style={styles.roundButton} onPress={() => {}}>
+            <Image
+              source={require("../assets/icons/next.png")}
+              style={styles.iconImage}
+              resizeMode="contain"
+            />
+          </Pressable>
+          <Pressable
+            style={[styles.roundButton, styles.endButton]}
+            onPress={() => {}}
+          >
+            <Image
+              source={require("../assets/icons/stop-button.png")}
+              style={styles.iconImage}
+              resizeMode="contain"
+            />
+          </Pressable>
+        </View>
       </View>
     </LinearGradient>
   );
@@ -114,9 +154,36 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
   },
+  iconImage: {
+    width: 28,
+    height: 28,
+  },
   titleContainer: {
     marginTop: 100,
     alignItems: "center",
+  },
+  controlsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 30,
+    marginTop: 120,
+  },
+  roundButton: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 5, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  endButton: {
+    backgroundColor: "#328f7fd7",
   },
   title: {
     fontSize: 28,
