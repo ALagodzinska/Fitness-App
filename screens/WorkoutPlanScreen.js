@@ -1,12 +1,23 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { View, Text, Button, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { useWorkout } from "../contexts/WorkoutContext";
 import ExerciseRow from "../components/ExerciseRow";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import MainButton from "../components/MainButton";
+import { useEffect } from "react";
 
 function WorkoutPlanScreen({ navigation }) {
   const { workout, setWorkout } = useWorkout();
+
+  useEffect(() => {
+    if (!workout) {
+      navigation.replace("StartScreen");
+    }
+  }, [navigation, workout]);
+
+  if (!workout) {
+    return null;
+  }
 
   const handleDragEnd = ({ data }) => {
     const newWorkout = workout.reorderExercises(data);
@@ -53,6 +64,7 @@ function WorkoutPlanScreen({ navigation }) {
         <MainButton
           title="Start"
           handlePress={() => navigateToSessionScreen()}
+          disabled={workout.exercises.length === 0}
         />
       </View>
     </LinearGradient>

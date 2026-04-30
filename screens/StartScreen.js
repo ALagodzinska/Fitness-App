@@ -5,14 +5,18 @@ import { useWorkout } from "../contexts/WorkoutContext";
 import Workout from "../models/Workout";
 
 function StartScreen({ navigation }) {
-  const { setWorkout } = useWorkout();
+  const { workout, setWorkout } = useWorkout();
 
   function handlePress() {
-    const newWorkout = new Workout();
-    setWorkout(newWorkout);
+    if (!workout) {
+      const newWorkout = new Workout();
+      setWorkout(newWorkout);
+    }
 
-    setWorkout(newWorkout);
-    navigation.navigate("ExerciseTypeScreen");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ExerciseTypeScreen" }],
+    });
   }
 
   return (

@@ -20,7 +20,7 @@ export default function App() {
               headerShown: false,
             }}
           >
-            <Stack.Screen name="Start Screen" component={StartScreen} />
+            <Stack.Screen name="StartScreen" component={StartScreen} />
             <Stack.Screen
               name="ExerciseTypeScreen"
               component={ExerciseTypeScreen}

@@ -5,6 +5,7 @@ import EXERCISE_TYPE from "../constants/exerciseTypes";
 import { filterAllExercisesByType } from "../utils/exerciseUtils";
 import { useWorkout } from "../contexts/WorkoutContext";
 import MainButton from "../components/MainButton";
+import { useEffect } from "react";
 
 // Probably needs a state for workout
 
@@ -22,6 +23,17 @@ function ExerciseTypeScreen({ navigation }) {
   }
 
   const { workout } = useWorkout();
+
+  useEffect(() => {
+    if (!workout) {
+      navigation.replace("StartScreen");
+    }
+  }, [navigation, workout]);
+
+  if (!workout) {
+    return null;
+  }
+
   const workoutDuration = workout.getDurationAsString();
 
   return (
