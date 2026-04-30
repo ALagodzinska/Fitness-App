@@ -5,6 +5,7 @@ import ExerciseRow from "../components/ExerciseRow";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import MainButton from "../components/MainButton";
 import { useEffect } from "react";
+import styles from "../styles/WorkoutPlanScreenStyles";
 
 function WorkoutPlanScreen({ navigation }) {
   const { workout, setWorkout } = useWorkout();
@@ -70,46 +71,5 @@ function WorkoutPlanScreen({ navigation }) {
     </LinearGradient>
   );
 }
-
-const styles = {
-  rootScreen: {
-    flex: 1,
-    width: "100%",
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "700",
-    marginTop: 70,
-    lineHeight: 46,
-    textAlign: "center",
-    color: "#E0F2F1", // soft teal/light color that stands out
-    letterSpacing: 2, // spacing between letters
-    textShadowColor: "rgba(0,0,0,0.25)", // subtle shadow
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 3,
-    marginBottom: 20,
-  },
-  shuffleButton: {
-    position: "absolute",
-    top: 90,
-    right: 5,
-    padding: 5,
-    zIndex: 1,
-  },
-  shuffleIcon: {
-    width: 24,
-    height: 24,
-  },
-  mainButtonContainer: {
-    alignItems: "center",
-    position: "absolute",
-    bottom: 60,
-    left: 0,
-    right: 0,
-  },
-  listContainer: {
-    height: "65%",
-  },
-};
 
 export default WorkoutPlanScreen;

@@ -1,8 +1,9 @@
-import { View, StyleSheet, ImageBackground } from "react-native";
+import { View, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import MainButton from "../components/MainButton";
 import { useWorkout } from "../contexts/WorkoutContext";
 import Workout from "../models/Workout";
+import styles from "../styles/StartScreenStyles";
 
 function StartScreen({ navigation }) {
   const { workout, setWorkout } = useWorkout();
@@ -36,19 +37,3 @@ function StartScreen({ navigation }) {
 }
 
 export default StartScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 500,
-  },
-  rootScreen: {
-    flex: 1,
-    width: "100%",
-  },
-  backgroundImage: {
-    opacity: 0.15,
-  },
-});
