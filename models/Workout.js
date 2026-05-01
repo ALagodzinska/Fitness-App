@@ -22,7 +22,7 @@ class Workout {
     const exerciseWithID = new Exercise(
       exercise.name,
       exercise.type,
-      exercise.duration
+      exercise.duration,
     );
     exerciseWithID.id = newWorkout.nextID++;
     newWorkout.exercises.push(exerciseWithID);
@@ -52,12 +52,12 @@ class Workout {
 
   removeLastMatchingExercise(name, type) {
     const matching = this.exercises.filter(
-      (ex) => ex.name === name && ex.type === type
+      (ex) => ex.name === name && ex.type === type,
     );
     if (matching.length === 0) return this;
 
     const lastAdded = matching.reduce((prev, current) =>
-      current.id > prev.id ? current : prev
+      current.id > prev.id ? current : prev,
     );
 
     return this.removeExerciseById(lastAdded.id);
@@ -78,7 +78,7 @@ class Workout {
 
   decrementStats(name, type) {
     const statIndex = this.stats.findIndex(
-      (s) => s.name === name && s.type === type
+      (s) => s.name === name && s.type === type,
     );
     if (statIndex !== -1) {
       this.stats[statIndex].count -= 1;
@@ -95,14 +95,14 @@ class Workout {
   getExerciseByTypeCount(type) {
     return this.getGroupedStatsByType(type).reduce(
       (total, stat) => total + stat.count,
-      0
+      0,
     );
   }
 
   getTotalWorkoutDuration() {
     return this.exercises.reduce(
       (total, exercise) => total + exercise.duration,
-      0
+      0,
     );
   }
 
@@ -110,7 +110,7 @@ class Workout {
     const durationInSeconds = this.getTotalWorkoutDuration();
     if (durationInSeconds <= 0) return "";
     const hours = Math.floor(durationInSeconds / 3600);
-    const minutes = Math.floor(durationInSeconds / 60);
+    const minutes = Math.floor((durationInSeconds % 3600) / 60);
     const seconds = durationInSeconds % 60;
     if (hours > 0)
       return seconds > 0
@@ -121,7 +121,7 @@ class Workout {
 
   getExerciseCount(name, type) {
     const exercisesStats = this.stats.find(
-      (s) => s.name === name && s.type === type
+      (s) => s.name === name && s.type === type,
     );
     return exercisesStats ? exercisesStats.count : 0;
   }
